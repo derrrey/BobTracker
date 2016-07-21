@@ -127,7 +127,7 @@ namespace BobTracker
                 if (trButton == null)
                 {
                     ApplicationLauncher instance = ApplicationLauncher.Instance;
-                    buttonTexture = onInactive;
+                    buttonTexture = isActive ? onActive : onInactive;
                     trButton = instance.AddModApplication(onTrue, onFalse, null, null, null, null, ApplicationLauncher.AppScenes.VAB, buttonTexture);
                 } else
                 {
