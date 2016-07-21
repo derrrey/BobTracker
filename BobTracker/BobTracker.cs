@@ -21,7 +21,7 @@ namespace BobTracker
 
         private bool isActive;
         private bool setup = false;
-        private ApplicationLauncherButton trButton;
+        private static ApplicationLauncherButton trButton;
         private Texture2D buttonTexture;
         private Texture2D onActive;
         private Texture2D onInactive;
@@ -60,9 +60,6 @@ namespace BobTracker
         {
             print(modTag + "Setting up button");
 
-            if (!ApplicationLauncher.Ready)
-                return;
-
             if(setup)
             {
                 print(modTag + "Button already set up");
@@ -74,6 +71,10 @@ namespace BobTracker
                     ApplicationLauncher instance = ApplicationLauncher.Instance;
                     buttonTexture = onInactive;
                     trButton = instance.AddModApplication(onTrue, onFalse, nothing, nothing, nothing, nothing, ApplicationLauncher.AppScenes.VAB, buttonTexture);
+                } else
+                {
+                    trButton.onFalse = onFalse;
+                    trButton.onTrue = onTrue;
                 }
             }
         }
