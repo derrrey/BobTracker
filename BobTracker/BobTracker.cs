@@ -68,13 +68,13 @@ namespace BobTracker
                         }
                         if (!hasScientist)
                         {
-                            //TODO
-                            debugPrint("No scientist on vessel!");
+                            ScreenMessages.PostScreenMessage("No scientist on vessel!");
+                            debugPrint("no scientist on vessel");
                         }
                         else
                         {
-                            //TODO
-                            debugPrint("Scientist already on vessel!");
+                            ScreenMessages.PostScreenMessage("Scientist already on vessel!");
+                            debugPrint("Scientist already on vessel");
                         }
                     }
                     else
