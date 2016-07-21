@@ -12,4 +12,4 @@ Everytime when I'm trying to get some sweet science points, I need to keep in mi
 ##How to install:
 1. Download the .zip file from [here](http://mods.curse.com/ksp-mods/kerbal/247780-bobtracker)
 2. Unpack the .zip file
-3. Copy the BobTracker/ folder to your /KSP/installation/GameData/
+3. Copy the BobTracker/ folder to your KSP installations GameData/ folder
