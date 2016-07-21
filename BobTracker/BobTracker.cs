@@ -20,7 +20,6 @@ namespace BobTracker
         private static string modTag = "[BobTracker]: ";
 
         private bool isActive;
-        private bool setup = false;
         private static ApplicationLauncherButton trButton;
         private Texture2D buttonTexture;
         private Texture2D onActive;
@@ -37,7 +36,7 @@ namespace BobTracker
             isActive = config.GetValue<bool>("isActive");
 
             /** Don't auto-destroy when loading new scene */
-            GameObject.DontDestroyOnLoad(this);
+            DontDestroyOnLoad(this);
 
             /** Load textures */
             onActive = loadTexture("BobTracker/icons/BT_active");
@@ -116,39 +115,27 @@ namespace BobTracker
 
         public void setupButton()
         {
-            debugPrint("Setting up button");
-
-            if(setup)
+            if(ApplicationLauncher.Ready)
             {
-                debugPrint("Button already set up");
-            } else if (ApplicationLauncher.Ready)
-            {
-                setup = true;
                 if (trButton == null)
                 {
+                    debugPrint("Setting up button");
                     ApplicationLauncher instance = ApplicationLauncher.Instance;
                     buttonTexture = isActive ? onActive : onInactive;
-                    trButton = instance.AddModApplication(onTrue, onFalse, null, null, null, null, ApplicationLauncher.AppScenes.VAB, buttonTexture);
+                    trButton = instance.AddModApplication(toggleActive, toggleActive, null, null, null, null, ApplicationLauncher.AppScenes.VAB, buttonTexture);
                 } else
                 {
-                    trButton.onFalse = onFalse;
-                    trButton.onTrue = onTrue;
+                    trButton.onFalse = toggleActive;
+                    trButton.onTrue = toggleActive;
                 }
             }
         }
 
-        private void onTrue()
+        private void toggleActive()
         {
-            debugPrint("onTrue()");
-            isActive = true;
-            trButton.SetTexture(onActive);
-        }
-
-        private void onFalse()
-        {
-            debugPrint("onFalse()");
-            isActive = false;
-            trButton.SetTexture(onInactive);
+            debugPrint("toggleAction()");
+            isActive = !isActive;
+            trButton.SetTexture(isActive ? onActive : onInactive);
         }
 
         private static void debugPrint(string s)
