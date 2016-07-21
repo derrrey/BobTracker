@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="BobTracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Trait.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -31,8 +31,13 @@ namespace BobTracker
         {
             debugPrint("Awake()");
 
-            /** Not active in the beginning */
-            isActive = false;
+            /** Load from config */
+            PluginConfiguration config = PluginConfiguration.CreateForType<BobTracker>();
+            config.load();
+            isActive = config.GetValue<bool>("isActive");
+
+            /** Don't auto-destroy when loading new scene */
+            GameObject.DontDestroyOnLoad(this);
 
             /** Load textures */
             onActive = loadTexture("BobTracker/icons/BT_active");
@@ -40,14 +45,67 @@ namespace BobTracker
 
             /** Register for events */
             GameEvents.onGUIApplicationLauncherReady.Add(setupButton);
+            GameEvents.onVesselGoOffRails.Add(onVesselLaunch);
+        }
+
+        private void onVesselLaunch(Vessel data)
+        {
+            if (isActive)
+            {
+                debugPrint("checking crew");
+                if (data.loaded)
+                {
+                    if (data.GetCrewCount() > 0)
+                    {
+                        List<ProtoCrewMember> members = data.GetVesselCrew();
+                        bool hasScientist = false;
+                        foreach (ProtoCrewMember m in members)
+                        {
+                            if (m.trait == Trait.SCIENTIST)
+                            {
+                                hasScientist = true;
+                            }
+                        }
+                        if (!hasScientist)
+                        {
+                            //TODO
+                            debugPrint("No scientist on vessel!");
+                        }
+                        else
+                        {
+                            //TODO
+                            debugPrint("Scientist already on vessel!");
+                        }
+                    }
+                    else
+                    {
+                        debugPrint("no crew on vessel");
+                        return;
+                    }
+                }
+                else
+                {
+                    debugPrint("vessel not fully loaded");
+                    return;
+                }
+            }
+
+            /** Destroy object */
+            Destroy(this);
         }
 
         public void OnDestroy()
         {
             debugPrint("OnDestroy()");
 
+            /** Save to config */
+            PluginConfiguration config = PluginConfiguration.CreateForType<BobTracker>();
+            config.SetValue("isActive", isActive);
+            config.save();
+
             /** Unregister for events */
             GameEvents.onGUIApplicationLauncherReady.Remove(setupButton);
+            GameEvents.onVesselGoOffRails.Remove(onVesselLaunch);
         }
 
         private static Texture2D loadTexture(string path)
@@ -79,14 +137,14 @@ namespace BobTracker
             }
         }
 
-        public void onTrue()
+        private void onTrue()
         {
             debugPrint("onTrue()");
             isActive = true;
             trButton.SetTexture(onActive);
         }
 
-        public void onFalse()
+        private void onFalse()
         {
             debugPrint("onFalse()");
             isActive = false;
