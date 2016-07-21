@@ -29,7 +29,7 @@ namespace BobTracker
         /** Called once at beginning */
         public void Awake()
         {
-            print(modTag + "Awake()");
+            debugPrint("Awake()");
 
             /** Not active in the beginning */
             isActive = false;
@@ -44,7 +44,7 @@ namespace BobTracker
 
         public void OnDestroy()
         {
-            print(modTag + "OnDestroy()");
+            debugPrint("OnDestroy()");
 
             /** Unregister for events */
             GameEvents.onGUIApplicationLauncherReady.Remove(setupButton);
@@ -52,17 +52,17 @@ namespace BobTracker
 
         private static Texture2D loadTexture(string path)
         {
-            print(modTag + "Loading texture: " + path);
+            debugPrint("Loading texture: " + path);
             return GameDatabase.Instance.GetTexture(path, false);
         }
 
         public void setupButton()
         {
-            print(modTag + "Setting up button");
+            debugPrint("Setting up button");
 
             if(setup)
             {
-                print(modTag + "Button already set up");
+                debugPrint("Button already set up");
             } else if (ApplicationLauncher.Ready)
             {
                 setup = true;
@@ -70,7 +70,7 @@ namespace BobTracker
                 {
                     ApplicationLauncher instance = ApplicationLauncher.Instance;
                     buttonTexture = onInactive;
-                    trButton = instance.AddModApplication(onTrue, onFalse, nothing, nothing, nothing, nothing, ApplicationLauncher.AppScenes.VAB, buttonTexture);
+                    trButton = instance.AddModApplication(onTrue, onFalse, null, null, null, null, ApplicationLauncher.AppScenes.VAB, buttonTexture);
                 } else
                 {
                     trButton.onFalse = onFalse;
@@ -79,22 +79,23 @@ namespace BobTracker
             }
         }
 
-        public void nothing()
-        {
-        }
-
         public void onTrue()
         {
-            print(modTag + "onTrue()");
+            debugPrint("onTrue()");
             isActive = true;
             trButton.SetTexture(onActive);
         }
 
         public void onFalse()
         {
-            print(modTag + "onFalse()");
+            debugPrint("onFalse()");
             isActive = false;
             trButton.SetTexture(onInactive);
+        }
+
+        private static void debugPrint(string s)
+        {
+            print(modTag + s);
         }
     }
 }
