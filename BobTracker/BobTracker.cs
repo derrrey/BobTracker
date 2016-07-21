@@ -67,12 +67,12 @@ namespace BobTracker
                         }
                         if (!hasScientist)
                         {
-                            ScreenMessages.PostScreenMessage("No scientist on vessel!", 10f);
-                            debugPrint("no scientist on vessel");
+                            ScreenMessages.PostScreenMessage("No scientist on vessel!", 10f, ScreenMessageStyle.LOWER_CENTER);
+                            debugPrint("No scientist on vessel");
                         }
                         else
                         {
-                            ScreenMessages.PostScreenMessage("Scientist already on vessel!", 10f);
+                            ScreenMessages.PostScreenMessage("Scientist already on vessel!", 10f, ScreenMessageStyle.LOWER_CENTER);
                             debugPrint("Scientist already on vessel");
                         }
                     }
